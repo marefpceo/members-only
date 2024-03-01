@@ -7,5 +7,21 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <form method='post'>
+      <div class='form-input'>
+        <label for='username'>Username: </label>
+        <input type='text' name='username' id='username'>
+      </div>
+
+      <div class='form-input'>
+        <label for='password'>Password</label>
+        <input type='password' name='password' id='password'>
+      </div>
+
+      <div class='form-buttons'>
+        <button type='submit'>Login</button>
+        <a href='/sign-up'><button type='button'>Sign Up</button></a>
+      </div>
+    </form>
   </body>
 </html>
