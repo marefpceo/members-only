@@ -10,5 +10,8 @@ router.get('/', index_controller.index);
 // GET request for create new user
 router.get('/sign-up', index_controller.user_sign_up_get);
 
+// POST request for create new user
+router.post('/sign-up', index_controller.user_sign_up_post);
+
 
 module.exports = router;

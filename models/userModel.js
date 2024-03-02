@@ -5,9 +5,9 @@ const UserSchema = new Schema ({
   first_name: { type: String, required: true, minLength: 2, maxLength: 100 },
   last_name: { type: String, required: true, minLength: 2, maxLength: 100 },
   username: { type: String, required: true, minLength: 2, maxLength: 100 },
-  password: { type: String, required: true, minLength: 2, maxLength: 100 },
+  password: { type: String, required: true, minLength: 8, maxLength: 100 },
   member: { type: Boolean, default: false },
-  admin: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, default: false },
 });
 
 // Virtual for user's full name

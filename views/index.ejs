@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
+<%- include('./partials/head') %>
+
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
     <form method='post'>
@@ -23,5 +18,5 @@
         <a href='/sign-up'><button type='button'>Sign Up</button></a>
       </div>
     </form>
-  </body>
-</html>
+
+<%- include('./partials/footer') %>
