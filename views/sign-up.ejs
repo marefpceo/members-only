@@ -23,13 +23,13 @@
     <div class='form-input'>
       <label for='password'>Password:</label>
       <input type='password' name='password' id='password' required
-        value='<%= typeof user === 'undefined' ? '' : password %>'>
+        value='<%= typeof user === 'undefined' ? '' : user.password %>'>
     </div>
 
     <div class='form-input'>
       <label for='confirm-password'>Confirm Password:</label>
-      <input type='password' name='confirm-password' id='confirm-password' required
-      value='<%= typeof user === 'undefined' ? '' : user.last_name %>'>
+      <input type='password' name='confirm_password' id='confirm_password' required
+      value='<%= typeof user === 'undefined' ? '' : confirm_password %>'>
     </div>
 
     <div class='form-input'>
@@ -39,7 +39,7 @@
 
     <div class='form-buttons'>
       <button type='submit'>Submit</button>
-      <button type='reset'>Cancel</button>
+      <a href='/'><button type='button'>Cancel</button></a>
     </div>
 
   </form>

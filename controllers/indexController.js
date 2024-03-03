@@ -34,11 +34,21 @@ exports.user_sign_up_post = [
     .trim()
     .isLength({ min: 3, max: 100 })
     .withMessage('Must contain a minimum of 3 characters')
+    // Create custom validator to check if user name exists or not
     .escape(),
   body('password')
     .trim()
     .isLength({ min: 9, max: 100 })
     .withMessage('Passwords must contain a minimum of 9 characters')
+    .escape(),
+  body('confirm_password')
+    .trim()
+    .isLength({ min: 9, max: 100 })
+    .withMessage('Passwords must contain a minimum of 9 characters')
+    .custom((value, { req }) => {
+      return value === req.body.password;
+      })
+    .withMessage('Passwords do not match')
     .escape(),
 
   asyncHandller(async (req, res, next) => {
@@ -51,19 +61,26 @@ exports.user_sign_up_post = [
       isAdmin: req.body.isAdmin === 'on' ? true : false,
     });
 
+    
     if(!errors.isEmpty()) {
       res.render('sign-up', {
         title: 'Sign Up',
         user: user,
-        password: req.body.password,
+        confirm_password: req.body.confirm_password,
         errors: errors.array(),
       });
       return;
     } else {
-      await user.save();
+      
+      bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+        if(err){
+          return next(err);
+        } else {
+          user.password = hashedPassword;
+          await user.save();
+        }
+      });      
       res.redirect('/');
     }
-
-    
   }),
 ];
