@@ -34,7 +34,12 @@ exports.user_sign_up_post = [
     .trim()
     .isLength({ min: 3, max: 100 })
     .withMessage('Must contain a minimum of 3 characters')
-    // Create custom validator to check if user name exists or not
+    .custom(async value => {
+      const user = await User.findOne({ username: new RegExp('^'+value+'$', "i")}).exec();
+      if (user) {
+        throw new Error('Username already in use');
+        }
+      })
     .escape(),
   body('password')
     .trim()
@@ -71,7 +76,6 @@ exports.user_sign_up_post = [
       });
       return;
     } else {
-      
       bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
         if(err){
           return next(err);
