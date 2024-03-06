@@ -4,8 +4,13 @@ const router = express.Router();
 // Require controller modules
 const index_controller = require('../controllers/indexController');
 
-// GET index page
-router.get('/', index_controller.index);
+// Redirect index to login
+router.get('/', function(req, res, next) {
+  res.redirect('/login');
+});
+
+// GET login page
+router.get('/login', index_controller.login);
 
 // GET request for create new user
 router.get('/sign-up', index_controller.user_sign_up_get);

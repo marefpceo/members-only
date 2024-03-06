@@ -6,9 +6,9 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
 
 
-// Display index page
-exports.index = asyncHandller(async (req, res, next) => {
-  res.render('index', { title: 'Members Only'});
+// Display login page
+exports.login = asyncHandller(async (req, res, next) => {
+  res.render('login', { title: 'Members Only'});
 });
 
 // Displays user sign up form on GET
@@ -84,7 +84,7 @@ exports.user_sign_up_post = [
           await user.save();
         }
       });      
-      res.redirect('/');
+      res.redirect('/login');
     }
   }),
 ];
