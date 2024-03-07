@@ -1,0 +1,17 @@
+<%- include('./partials/head') %>
+
+    <h1><%= title %></h1>
+    <p>Join the club!</p>
+    <form method='post'>
+      <div class='form-input'>
+        <label for='private_access'>Username: </label>
+        <input type='password' name='private_access' id='private_access'>
+      </div>
+
+      <div class='form-buttons'>
+        <button type='submit'>Login</button>
+        <a href='/sign-up'><button type='button'>Sign Up</button></a>
+      </div>
+    </form>
+
+<%- include('./partials/footer') %>
