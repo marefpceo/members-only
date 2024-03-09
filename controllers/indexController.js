@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const asyncHandller = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
@@ -9,6 +11,18 @@ const User = require('../models/userModel');
 // Display index page
 exports.index = asyncHandller(async (req, res, next) => {
   res.render('index', { title: 'Members Only'});
+});
+
+// Display login page
+exports.login_get = asyncHandller(async (req, res, next) => {
+  res.render('login',{
+    title: 'Login',
+  });
+});
+
+// Handle login POST
+exports.login_post = asyncHandller(async (req, res, next) => {
+  
 });
 
 // Displays user sign up form on GET
@@ -87,4 +101,40 @@ exports.user_sign_up_post = [
       res.redirect('/');
     }
   }),
+];
+
+exports.join_club_get = asyncHandller(async (req, res, next) => {
+  res.render('join_club', {
+    title: 'Join the Club',
+  }); 
+});
+
+exports.join_club_post = [
+  body('private_access')
+    .trim()
+    .isLength({ min: 3 })
+    .withMessage('Access denied!')
+    .matches(`${process.env.ACCESS_CODE}`)
+    .withMessage('Access denied!')
+    .escape(),
+
+  asyncHandller(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+      res.render('join_club', {
+        title: 'Join the Club',
+        private_access: req.body.private_access,
+        errors: errors.array(),
+      })    
+    } else {
+      //////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////
+      // Add code to update member status with private access //
+      //////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////
+      res.render('/');
+    }
+    
+  })
 ];
