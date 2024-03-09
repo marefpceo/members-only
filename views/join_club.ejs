@@ -1,11 +1,29 @@
 <%- include('./partials/head') %>
 
     <h1><%= title %></h1>
+<<<<<<< HEAD
     <p>Welcome to <%= title %></p>
     <form method='post'>
       <div class='form-input'>
         <label for='private_access'>Access Code: </label>
         <input type='text' name='private_access' id='private_access'>
+=======
+    <p>Enter the secret code for private access!</p>
+    <form method='post'>
+      <div class='form-input'>
+        <label for='private_access'>Access Code: </label>
+        <input type='password' name='private_access' id='private_access'>
+      </div>
+
+      <% if (typeof errors !== 'undefined') { %>
+       <% errors.forEach(error => { %>
+        <p><%= error.msg %></p>
+       <% }) %>
+      <% } %>
+
+      <div class='form-buttons'>
+        <button type='submit'>Login</button>
+>>>>>>> b36c853bc0b85cd92369091414b22c684c96d75d
       </div>
     </form>
 

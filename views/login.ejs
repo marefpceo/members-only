@@ -1,6 +1,19 @@
 <%- include('./partials/head') %>
 
     <h1><%= title %></h1>
+<<<<<<< HEAD
+    <% if (user) { %>
+        <p>Welcome back <%= user.username %></p>
+        <a href='/logout'><button type='button'>Logout</button></a>
+    <% } else { %>
+        <p>Welcome to <%= title %></p>
+
+        <a href='/login'><button type='button'>Login</button></a>
+        <a href='/sign-up'><button type='button'>Sign Up</button></a>
+    <% } %>
+
+    
+=======
     <p>Welcome to <%= title %></p>
     <form method='post'>
       <div class='form-input'>
@@ -15,8 +28,8 @@
 
       <div class='form-buttons'>
         <button type='submit'>Login</button>
-        <a href='/sign-up'><button type='button'>Sign Up</button></a>
       </div>
     </form>
+>>>>>>> b36c853bc0b85cd92369091414b22c684c96d75d
 
 <%- include('./partials/footer') %>

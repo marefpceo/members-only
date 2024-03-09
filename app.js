@@ -6,9 +6,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const lessMiddleware = require('less-middleware');
 const logger = require('morgan');
+const passport = require('passport');
+const session = require('express-session');
 
 const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -34,8 +35,15 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// passport session middleware
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+}));
+app.use(passport.authenticate('session'));
+
 app.use('/', indexRouter);
-app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
