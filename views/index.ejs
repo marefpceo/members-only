@@ -1,9 +1,16 @@
 <%- include('./partials/head') %>
 
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <% if (user) { %>
+        <p>Welcome back <%= user.username %></p>
+        <a href='/logout'><button type='button'>Logout</button></a>
+    <% } else { %>
+        <p>Welcome to <%= title %></p>
 
-    <a href='/login'><button type='button'>Login</button></a>
-    <a href='/sign-up'><button type='button'>Sign Up</button></a>
+        <a href='/login'><button type='button'>Login</button></a>
+        <a href='/sign-up'><button type='button'>Sign Up</button></a>
+    <% } %>
+
+    
 
 <%- include('./partials/footer') %>

@@ -10,19 +10,17 @@ const User = require('../models/userModel');
 
 // Display index page
 exports.index = asyncHandller(async (req, res, next) => {
-  res.render('index', { title: 'Members Only'});
+  res.render('index', { 
+    title: 'Members Only',
+    user: req.user,
+  });
 });
 
 // Display login page
 exports.login_get = asyncHandller(async (req, res, next) => {
-  res.render('login',{
+  res.render('login', {
     title: 'Login',
   });
-});
-
-// Handle login POST
-exports.login_post = asyncHandller(async (req, res, next) => {
-  
 });
 
 // Displays user sign up form on GET

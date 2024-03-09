@@ -32,16 +32,17 @@ passport.use(
   })
 );
 
-passport.serializeUser(function(user, cb) {
-  process.nextTick(() => {
-    cb(null, { id: user.id, username: user.username });
-  });
+passport.serializeUser((user, done) => {
+  done(null, user.id);
 });
 
-passport.deserializeUser(async (user, cb) => {
-  process.nextTick(() => {
-    return cb(null, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  };
 });
 
 // GET request for index page
@@ -57,7 +58,7 @@ router.post('/login', passport.authenticate('local', {
 }));
 
 // POST request for logout
-router.post('/logout', (req, res, next) => {
+router.get('/logout', (req, res, next) => {
   req.logout((err) => {
     if(err) {
       return next(err);
