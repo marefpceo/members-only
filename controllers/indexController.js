@@ -6,13 +6,16 @@ const bcrypt = require('bcryptjs');
 
 // Required models
 const User = require('../models/userModel');
+const Message = require('../models/messageModel');
 
 
 // Display index page
 exports.index = asyncHandller(async (req, res, next) => {
+  const allMessages = await Message.find().populate('author').sort({ timestamp: 1 });
   res.render('index', { 
     title: 'Members Only',
     user: req.user,
+    messages: allMessages,
   });
 });
 
@@ -25,7 +28,7 @@ exports.login_get = asyncHandller(async (req, res, next) => {
 
 // Displays user sign up form on GET
 exports.user_sign_up_get = asyncHandller(async (req, res, next) => {
-  res.render('sign-up', {
+  res.render('sign_up', {
      title: 'Sign Up',
   });
 });
@@ -80,7 +83,7 @@ exports.user_sign_up_post = [
 
     
     if(!errors.isEmpty()) {
-      res.render('sign-up', {
+      res.render('sign_up', {
         title: 'Sign Up',
         user: user,
         confirm_password: req.body.confirm_password,
@@ -102,9 +105,14 @@ exports.user_sign_up_post = [
 ];
 
 exports.join_club_get = asyncHandller(async (req, res, next) => {
-  res.render('join_club', {
-    title: 'Join the Club',
-  }); 
+  if(!req.user) {
+    const err = new Error('You must be logged in to do that');
+    return next(err);
+  } else {
+    res.render('join_club', {
+      title: 'Join the Club',
+    }); 
+  }
 });
 
 exports.join_club_post = [
@@ -133,6 +141,53 @@ exports.join_club_post = [
       //////////////////////////////////////////////////////////
       res.render('/');
     }
-    
   })
+];
+
+// GET and display create message form
+exports.new_message_get = asyncHandller(async (req, res, next) => {
+  if(!req.user){
+    const err = new Error('You must be logged in to do that');
+    return next(err);
+  } else {
+    res.render('new_message_form', {
+      title: 'New Message',
+      user: req.user,
+    });
+  }
+});
+
+// Handle create message POST
+exports.new_message_post = [
+  body('message_title')
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Title must be between 2 and 100 characters long')
+    .escape(),
+  body('message_text')
+    .trim()
+    .isLength({ min: 2, max: 250 })
+    .withMessage('Message must be between 2 and 250 characters long')
+    .escape(),
+
+  asyncHandller(async (req, res, next) => {
+    const errors = validationResult(req);
+    const message = new Message({
+      author: req.user,
+      message_title: req.body.message_title,
+      message_text: req.body.message_text,
+    });
+
+    if(!errors.isEmpty()) {
+      res.render('new_message_form', {
+        title: 'New Message',
+        message: message,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      await message.save();
+      res.redirect('/');
+    }
+  }),
 ];

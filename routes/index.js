@@ -65,18 +65,24 @@ router.get('/logout', (req, res, next) => {
     }
     res.redirect('/');
   });
-})
+});
 
 // GET request for create new user
-router.get('/sign-up', index_controller.user_sign_up_get);
+router.get('/sign_up', index_controller.user_sign_up_get);
 
 // POST request for create new user
-router.post('/sign-up', index_controller.user_sign_up_post);
+router.post('/sign_up', index_controller.user_sign_up_post);
 
 // GET request for join club
 router.get('/join', index_controller.join_club_get);
 
 // POST request for join club
 router.post('/join', index_controller.join_club_post);
+
+// GET request for new message form
+router.get('/new_message', index_controller.new_message_get);
+
+// POST request for new message form
+router.post('/new_message', index_controller.new_message_post);
 
 module.exports = router;

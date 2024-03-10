@@ -43,7 +43,8 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,
-    ttl: 1 * 24 * 60 * 60 // Sessions expire after 24 hours. Default is 14 days
+    ttl: 1 * 24 * 60 * 60, // Sessions expire after 24 hours. Default is 14 days
+    autoRemove: 'native',
   }),
 }));
 app.use(passport.authenticate('session'));

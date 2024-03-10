@@ -4,13 +4,29 @@
     <% if (user) { %>
         <p>Welcome back <%= user.username %></p>
         <a href='/logout'><button type='button'>Logout</button></a>
+        <a href='/new_message'><button type='button'>Create Message</button></a>
     <% } else { %>
         <p>Welcome to <%= title %></p>
 
         <a href='/login'><button type='button'>Login</button></a>
-        <a href='/sign-up'><button type='button'>Sign Up</button></a>
+        <a href='/sign_up'><button type='button'>Sign Up</button></a>
     <% } %>
 
+    <section>
+        <div class='message-section'>
+        <% if (typeof messages !== 'undefinded') { %>
+            <% messages.forEach(message => { %>
+            <div class='message-div'>
+                <h3><%= message.message_title %></h3>
+                <p><%= message.message_text %></p>
+                
+                <p>Author: <%= message.author.username %></p>
+                <p>Date created: <%= message.timestamp_formatted %></p>
+                </div>
+            <% }) %>
+        <% } %>
+        </div>
+    </section>
     
 
 <%- include('./partials/footer') %>
