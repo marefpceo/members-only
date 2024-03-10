@@ -8,6 +8,7 @@ const lessMiddleware = require('less-middleware');
 const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const indexRouter = require('./routes/index');
 
@@ -40,6 +41,10 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    ttl: 1 * 24 * 60 * 60 // Sessions expire after 24 hours. Default is 14 days
+  }),
 }));
 app.use(passport.authenticate('session'));
 
