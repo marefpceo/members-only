@@ -1,24 +1,11 @@
 <%- include('./partials/head') %>
 
     <h1><%= title %></h1>
-<<<<<<< HEAD
-    <% if (user) { %>
-        <p>Welcome back <%= user.username %></p>
-        <a href='/logout'><button type='button'>Logout</button></a>
-    <% } else { %>
-        <p>Welcome to <%= title %></p>
-
-        <a href='/login'><button type='button'>Login</button></a>
-        <a href='/sign-up'><button type='button'>Sign Up</button></a>
-    <% } %>
-
-    
-=======
     <p>Welcome to <%= title %></p>
     <form method='post'>
       <div class='form-input'>
         <label for='username'>Username: </label>
-        <input type='text' name='username' id='username'>
+        <input type='text' name='username' id='username' autofocus>
       </div>
 
       <div class='form-input'>
@@ -30,6 +17,5 @@
         <button type='submit'>Login</button>
       </div>
     </form>
->>>>>>> b36c853bc0b85cd92369091414b22c684c96d75d
 
 <%- include('./partials/footer') %>
