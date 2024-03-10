@@ -115,31 +115,29 @@ exports.join_club_get = asyncHandller(async (req, res, next) => {
   }
 });
 
+// Handle Join club POST
 exports.join_club_post = [
   body('private_access')
     .trim()
     .isLength({ min: 3 })
-    .withMessage('Access denied!')
+    .withMessage('Passcode must be at least 3 characters in length')
     .matches(`${process.env.ACCESS_CODE}`)
-    .withMessage('Access denied!')
     .escape(),
 
   asyncHandller(async (req, res, next) => {
     const errors = validationResult(req);
+    const currentUser = await User.findById(req.user._id).exec();
 
     if(!errors.isEmpty()) {
       res.render('join_club', {
         title: 'Join the Club',
         private_access: req.body.private_access,
         errors: errors.array(),
+        currentUser: currentUser,
       })    
     } else {
-      //////////////////////////////////////////////////////////
-      //////////////////////////////////////////////////////////
-      // Add code to update member status with private access //
-      //////////////////////////////////////////////////////////
-      //////////////////////////////////////////////////////////
-      res.render('/');
+      await User.findByIdAndUpdate(currentUser._id, { member: true }).exec();
+      res.redirect('/');
     }
   })
 ];
