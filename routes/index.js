@@ -66,11 +66,14 @@ router.get('/logout', (req, res, next) => {
     res.redirect('/');
   });
 });
+});
 
 // GET request for create new user
 router.get('/sign_up', index_controller.user_sign_up_get);
+router.get('/sign_up', index_controller.user_sign_up_get);
 
 // POST request for create new user
+router.post('/sign_up', index_controller.user_sign_up_post);
 router.post('/sign_up', index_controller.user_sign_up_post);
 
 // GET request for join club

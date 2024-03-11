@@ -12,9 +12,11 @@ const Message = require('../models/messageModel');
 // Display index page
 exports.index = asyncHandller(async (req, res, next) => {
   const allMessages = await Message.find().populate('author').sort({ timestamp: 1 });
+  const allMessages = await Message.find().populate('author').sort({ timestamp: 1 });
   res.render('index', { 
     title: 'Members Only',
     user: req.user,
+    messages: allMessages,
     messages: allMessages,
   });
 });
@@ -28,6 +30,7 @@ exports.login_get = asyncHandller(async (req, res, next) => {
 
 // Displays user sign up form on GET
 exports.user_sign_up_get = asyncHandller(async (req, res, next) => {
+  res.render('sign_up', {
   res.render('sign_up', {
      title: 'Sign Up',
   });
@@ -83,7 +86,7 @@ exports.user_sign_up_post = [
 
     
     if(!errors.isEmpty()) {
-      res.render('sign_up', {
+      res.render('sign-up', {
         title: 'Sign Up',
         user: user,
         confirm_password: req.body.confirm_password,
