@@ -1,0 +1,19 @@
+<%- include('./partials/head') %>
+
+  <h1><%= message.message_title %></h1>
+
+  <p>Created on: <%= message.timestamp_formatted%></p>
+
+  <p>Author: <%= message.author.first_name %> <%= message.author.last_name %></p>
+  <p>Username: <%= message.author.username%></p>
+  <p><%= message.message_text %></p>  
+
+  <hr>
+  <p>Click below to delete this messages. This is not reversable</p>
+  <form method='post'>
+    <button type='submit'>Delete</button>
+    <a href='/'><button type='button'>Cancel</button></a>
+  </form>
+
+
+<%- include('./partials/footer') %>

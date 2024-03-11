@@ -189,3 +189,27 @@ exports.new_message_post = [
     }
   }),
 ];
+
+// GET message to delete
+exports.delete_message_get = (async (req, res, next) => {
+  const message = await Message.findById(req.params.id).populate('author').exec();
+
+  if(!req.user){
+    const err = new Error('You must be logged in to do that');
+    return next(err);
+  } else if (message.author.isAdmin !== true) {
+    const err = new Error('You must be an admin to access this page');
+    return next(err);
+  } else {
+    res.render('message', {
+      title: 'Message Info',
+      message: message,
+    });
+  }
+});
+
+// POST Handle message delete
+exports.delete_message_post = (async (req, res, next) => {
+  await Message.findByIdAndDelete(req.params.id).exec();
+  res.redirect('/');
+});

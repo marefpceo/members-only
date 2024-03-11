@@ -85,4 +85,10 @@ router.get('/new_message', index_controller.new_message_get);
 // POST request for new message form
 router.post('/new_message', index_controller.new_message_post);
 
+// GET request for message delete
+router.get('/message/:id', index_controller.delete_message_get);
+
+// POST reqest for message delete
+router.post('/message/:id', index_controller.delete_message_post);
+
 module.exports = router;

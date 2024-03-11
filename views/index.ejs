@@ -15,15 +15,23 @@
 
     <section>
         <div class='message-section'>
-        <% if (typeof messages !== 'undefinded') { %>
+        <% if (typeof messages !== 'undefined') { %>
             <% messages.forEach(message => { %>
             <div class='message-div'>
                 <h3><%= message.message_title %></h3>
+                <% if (user && (user.isAdmin === true)) { %>
+                    <a href='<%= message.url %>'><button type='button'>Delete</button></a>
+                <% } %>
                 <p><%= message.message_text %></p>
                 
-                <p>Author: <%= message.author.username %></p>
-                <p>Date created: <%= message.timestamp_formatted %></p>
+            <% if (typeof user !== 'undefined' && user.member === true) { %>
+                <div class='message-div-footer'>
+                    <p>Author: <%= message.author.username %></p>
+                    <p>Date created: <%= message.timestamp_formatted %></p>
                 </div>
+            <% } %>    
+                
+            </div>
             <% }) %>
         <% } %>
         </div>
