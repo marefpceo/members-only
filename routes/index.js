@@ -66,7 +66,6 @@ router.get('/logout', (req, res, next) => {
     res.redirect('/');
   });
 });
-});
 
 // GET request for create new user
 router.get('/sign_up', index_controller.user_sign_up_get);

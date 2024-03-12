@@ -1,0 +1,11 @@
+<aside>
+  <% if (user) { %>
+      <p>Welcome back <%= user.username %></p>
+      <a href='/new_message'><button type='button'>Create Message</button></a>
+      <a href='/join'><button type='button'>Join the Club!</button></a>
+  <% } else { %>
+      <p>Welcome to <%= title %></p>
+      <a href='/login'><button type='button'>Login</button></a>
+      <a href='/sign_up'><button type='button'>Sign Up</button></a>
+  <% } %>
+</aside>

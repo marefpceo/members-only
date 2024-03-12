@@ -12,7 +12,6 @@ const Message = require('../models/messageModel');
 // Display index page
 exports.index = asyncHandller(async (req, res, next) => {
   const allMessages = await Message.find().populate('author').sort({ timestamp: 1 });
-  const allMessages = await Message.find().populate('author').sort({ timestamp: 1 });
   res.render('index', { 
     title: 'Members Only',
     user: req.user,
@@ -25,12 +24,12 @@ exports.index = asyncHandller(async (req, res, next) => {
 exports.login_get = asyncHandller(async (req, res, next) => {
   res.render('login', {
     title: 'Login',
+    user: req.user,
   });
 });
 
 // Displays user sign up form on GET
 exports.user_sign_up_get = asyncHandller(async (req, res, next) => {
-  res.render('sign_up', {
   res.render('sign_up', {
      title: 'Sign Up',
   });
