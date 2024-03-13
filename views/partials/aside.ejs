@@ -2,9 +2,13 @@
   <% if (user) { %>
       <div class='user-options'>
         <p>Welcome back <strong><%= user.username %></strong></p>
+        <p><strong><em><%= user.member === true ? 'Private Access Member' : '' %></em></strong></p>
         <div class='button-group'>
           <a href='/new_message'><button type='button'>Create Message</button></a>
-          <a href='/join'><button type='button'>Join the Club!</button></a>
+          <% if (user.member !== true) { %>
+            <a href='/join'><button type='button'>Join the Club!</button></a>
+          <% } %>
+          
         </div>
       </div>
   <% } else { %>

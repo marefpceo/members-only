@@ -199,7 +199,7 @@ exports.delete_message_get = (async (req, res, next) => {
   if(!req.user){
     const err = new Error('You must be logged in to do that');
     return next(err);
-  } else if (message.author.isAdmin !== true) {
+  } else if (req.user.isAdmin !== true) {
     const err = new Error('You must be an admin to access this page');
     return next(err);
   } else {

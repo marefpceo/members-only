@@ -8,16 +8,21 @@
         <% if (typeof messages !== 'undefined') { %>
             <% messages.forEach(message => { %>
             <div class='message-div'>
-                <h3><%= message.message_title %></h3>
-                <% if (user && (user.isAdmin === true)) { %>
-                    <a href='<%= message.url %>'><button type='button'>Delete</button></a>
-                <% } %>
-                <p><%= message.message_text %></p>
+                <div class='message-header'>
+                    <h3><%= message.message_title %></h3>
+                    <% if (user && (user.isAdmin === true)) { %>
+                        <a href='<%= message.url %>'><button type='button'>Delete</button></a>
+                    <% } %>
+                </div>
+                <hr>
+                <div class='message-body'>
+                    <p><%= message.message_text %></p>
+                </div>
                 
             <% if (typeof user !== 'undefined' && user.member === true) { %>
                 <div class='message-div-footer'>
-                    <p>Author: <%= message.author.username %></p>
-                    <p>Date created: <%= message.timestamp_formatted %></p>
+                    <p><strong>Author:</strong> <%= message.author.username %></p>
+                    <p><strong>Date created:</strong> <%= message.timestamp_formatted %></p>
                 </div>
             <% } %>    
                 
