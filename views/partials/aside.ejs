@@ -1,11 +1,19 @@
 <aside>
   <% if (user) { %>
-      <p>Welcome back <%= user.username %></p>
-      <a href='/new_message'><button type='button'>Create Message</button></a>
-      <a href='/join'><button type='button'>Join the Club!</button></a>
+      <div class='user-options'>
+        <p>Welcome back <strong><%= user.username %></strong></p>
+        <div class='button-group'>
+          <a href='/new_message'><button type='button'>Create Message</button></a>
+          <a href='/join'><button type='button'>Join the Club!</button></a>
+        </div>
+      </div>
   <% } else { %>
-      <p>Welcome to <%= title %></p>
-      <a href='/login'><button type='button'>Login</button></a>
-      <a href='/sign_up'><button type='button'>Sign Up</button></a>
+      <div class='login-options'>
+        <p>Welcome to the <strong>MembersOnly</strong> message center!</p>
+        <div class='button-group'>
+          <a href='/login'><button type='button'>Login</button></a>
+          <a href='/sign_up'><button type='button'>Sign Up</button></a>
+        </div>
+      </div>
   <% } %>
 </aside>

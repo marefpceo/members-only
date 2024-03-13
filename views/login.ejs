@@ -1,22 +1,25 @@
 <%- include('./partials/head') %>
 <%- include('./partials/header') %>
-<%- include('./partials/aside') %>
 
-    <h1><%= title %></h1>
-    <form method='post'>
-      <div class='form-input'>
-        <label for='username'>Username: </label>
-        <input type='text' name='username' id='username' autofocus>
+    <section>
+      <div class='login'>
+        <h1><%= title %></h1>
+        <p>Enter Username and Password to login!</p>
+        <form method='post'>
+          <div class='form-input'>
+            <label for='username'>Username: </label>
+            <input type='text' name='username' id='username' autofocus>
+          </div>
+          <div class='form-input'>
+            <label for='password'>Password: </label>
+            <input type='password' name='password' id='password'>
+          </div>
+          <div class='form-buttons'>
+            <button type='submit'>Login</button>
+            <a href='/'><button type='button'>Cancel</button></a>
+          </div>
+        </form>
       </div>
-
-      <div class='form-input'>
-        <label for='password'>Password</label>
-        <input type='password' name='password' id='password'>
-      </div>
-
-      <div class='form-buttons'>
-        <button type='submit'>Login</button>
-      </div>
-    </form>
+    </section>
 
 <%- include('./partials/footer') %>
