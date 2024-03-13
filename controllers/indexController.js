@@ -32,6 +32,7 @@ exports.login_get = asyncHandller(async (req, res, next) => {
 exports.user_sign_up_get = asyncHandller(async (req, res, next) => {
   res.render('sign_up', {
      title: 'Sign Up',
+     user: req.user,
   });
 });
 
@@ -85,7 +86,7 @@ exports.user_sign_up_post = [
 
     
     if(!errors.isEmpty()) {
-      res.render('sign-up', {
+      res.render('sign_up', {
         title: 'Sign Up',
         user: user,
         confirm_password: req.body.confirm_password,

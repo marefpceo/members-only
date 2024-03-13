@@ -1,48 +1,44 @@
 <%- include('./partials/head') %>
+<%- include('./partials/header') %>
 
-  <h1><%= title %></h1>
-  <form method='post' id='sign-up-form'>
-    <div class='form-input'>
-      <label for='first_name'>First Name:</label>
-      <input type='text' name='first_name' id='first_name' required
-       value='<%= typeof user === 'undefined' ? '' : user.first_name %>'>
-    </div>
-
-    <div class='form-input'>
-      <label for='last_name'>Last Name:</label>
-      <input type='text' name='last_name' id='last_name' required 
-      value='<%= typeof user === 'undefined' ? '' : user.last_name %>'>
-    </div>
-
-    <div class='form-input'>
-      <label for='username'>Username:</label>
-      <input type='text' name='username' id='username' required
-        value='<%= typeof user === 'undefined' ? '' : user.username %>'>
-    </div>
-
-    <div class='form-input'>
-      <label for='password'>Password:</label>
-      <input type='password' name='password' id='password' required
-        value='<%= typeof user === 'undefined' ? '' : user.password %>'>
-    </div>
-
-    <div class='form-input'>
-      <label for='confirm-password'>Confirm Password:</label>
-      <input type='password' name='confirm_password' id='confirm_password' required
-      value='<%= typeof user === 'undefined' ? '' : confirm_password %>'>
-    </div>
-
-    <div class='form-input'>
-      <label for='isAdmin'>Admin?:</label>
-      <input type='checkbox' name='isAdmin' id='isAdmin' >
-    </div>
-
-    <div class='form-buttons'>
-      <button type='submit'>Submit</button>
-      <a href='/'><button type='button'>Cancel</button></a>
-    </div>
-
-  </form>
+  <div class='sign-up-div'>
+    <h1><%= title %></h1>
+    <form method='post' id='sign-up-form'>
+      <div class='form-input'>
+        <label for='first_name'>First Name:</label>
+        <input type='text' name='first_name' id='first_name' required
+         value='<%= typeof user === 'undefined' ? '' : user.first_name %>'>
+      </div>
+      <div class='form-input'>
+        <label for='last_name'>Last Name:</label>
+        <input type='text' name='last_name' id='last_name' required
+        value='<%= typeof user === 'undefined' ? '' : user.last_name %>'>
+      </div>
+      <div class='form-input'>
+        <label for='username'>Username:</label>
+        <input type='text' name='username' id='username' required
+          value='<%= typeof user === 'undefined' ? '' : user.username %>'>
+      </div>
+      <div class='form-input'>
+        <label for='password'>Password:</label>
+        <input type='password' name='password' id='password' required
+          value='<%= typeof user === 'undefined' ? '' : user.password %>'>
+      </div>
+      <div class='form-input'>
+        <label for='confirm-password'>Confirm Password:</label>
+        <input type='password' name='confirm_password' id='confirm_password' required
+        value='<%= typeof user === 'undefined' ? '' : confirm_password %>'>
+      </div>
+      <div class='form-input'>
+        <label for='isAdmin'>Admin?:</label>
+        <input type='checkbox' name='isAdmin' id='isAdmin' >
+      </div>
+      <div class='form-buttons'>
+        <button type='submit'>Submit</button>
+        <a href='/'><button type='button'>Cancel</button></a>
+      </div>
+    </form>
+  </div>
 
   <ul>
     <% if (typeof errors !== 'undefined') { %>
