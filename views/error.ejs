@@ -1,10 +1,22 @@
-<%- include('./partials/head') %>
-<%- include('./partials/header') %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div class='error-container'>
+    <%- include('./partials/header') %>
 
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+    <div class='error-status-div'>
+      <h1><%= error.status %></h1>
+      <h2><%= message %></h2>
+    </div>
 
-<a href='/'>Homepage</a>
+    <!-- <h1><%= message %></h1>
+    <h2><%= error.status %></h2>
+    <pre><%= error.stack %></pre> -->
+
+    <a href='/'>Click here to return to the homepage</a>
 
 <%- include('./partials/footer') %>

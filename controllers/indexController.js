@@ -109,7 +109,8 @@ exports.user_sign_up_post = [
 
 exports.join_club_get = asyncHandller(async (req, res, next) => {
   if(!req.user) {
-    const err = new Error('You must be logged in to do that');
+    const err = new Error('Unauthorized Access');
+    err.status = 401;
     return next(err);
   } else {
     res.render('join_club', {
@@ -148,7 +149,8 @@ exports.join_club_post = [
 // GET and display create message form
 exports.new_message_get = asyncHandller(async (req, res, next) => {
   if(!req.user){
-    const err = new Error('You must be logged in to do that');
+    const err = new Error('Unauthorized Access');
+    err.status = 401;
     return next(err);
   } else {
     res.render('new_message_form', {
@@ -198,10 +200,12 @@ exports.delete_message_get = (async (req, res, next) => {
   const message = await Message.findById(req.params.id).populate('author').exec();
 
   if(!req.user){
-    const err = new Error('You must be logged in to do that');
+    const err = new Error('Unauthorized Access');
+    err.status = 401;
     return next(err);
   } else if (req.user.isAdmin !== true) {
-    const err = new Error('You must be an admin to access this page');
+    const err = new Error('Forbidden');
+    err.status = 403;
     return next(err);
   } else {
     res.render('message', {
