@@ -76,7 +76,13 @@ button {
   background-color: @accent;
   border-radius: 5px;
   border: 1px solid @background-dark;
-  box-shadow: 0 0 5px 0px @background-dark;
+  box-shadow: 0 0 5px 1px @background-dark;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: @accent;
+  box-shadow: 0 0 0 0px @background-light
 }
 
 button:active {
@@ -164,6 +170,36 @@ button:active {
 
 .sign-up-div {
   .login();
+}
+
+
+
+// Message Delete
+.message-delete {
+  .login();
+  padding-top: 10px;
+
+  form {
+    display: flex;
+    justify-content: center;
+    gap: 15%;
+    margin-top: 25px;
+  }
+
+  button {
+    width: 120px;
+    height: 30px;
+  }
+}
+
+.message-delete-header {
+  padding:0;
+  text-align: left;
+}
+
+.message-delete-body {
+  margin: 0 0 30px 0;
+  text-align: left;
 }
 
 

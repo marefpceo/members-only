@@ -206,6 +206,7 @@ exports.delete_message_get = (async (req, res, next) => {
   } else {
     res.render('message', {
       title: 'Message Info',
+      user: req.user,
       message: message,
     });
   }
