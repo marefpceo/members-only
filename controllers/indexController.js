@@ -73,6 +73,11 @@ exports.user_sign_up_post = [
       })
     .withMessage('Passwords do not match')
     .escape(),
+  body('isAdmin')
+    .trim()
+    .matches(`${process.env.ADMIN_ACCESS}`)
+    .withMessage('Incorrect Admin Access Code')
+    .escape(),    
 
   asyncHandller(async (req, res, next) => {
     const errors = validationResult(req);
@@ -81,7 +86,7 @@ exports.user_sign_up_post = [
       last_name: req.body.last_name,
       username: req.body.username,
       password: req.body.password,
-      isAdmin: req.body.isAdmin === 'on' ? true : false,
+      isAdmin: req.body.isAdmin === `${process.env.ADMIN_ACCESS}` ? true : false,
     });
 
     
