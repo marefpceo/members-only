@@ -115,6 +115,7 @@ exports.join_club_get = asyncHandller(async (req, res, next) => {
   } else {
     res.render('join_club', {
       title: 'Join the Club',
+      user: req.user,
     }); 
   }
 });
@@ -138,6 +139,7 @@ exports.join_club_post = [
         private_access: req.body.private_access,
         errors: errors.array(),
         currentUser: currentUser,
+        user: req.user,
       })    
     } else {
       await User.findByIdAndUpdate(currentUser._id, { member: true }).exec();

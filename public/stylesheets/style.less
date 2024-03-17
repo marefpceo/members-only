@@ -172,6 +172,42 @@ button:active {
   .login();
 }
 
+.join-div {
+  text-align: center;
+  border: 1px solid @accent;
+  border-radius: 8px;
+  background-color: @login-background;
+  padding: 15px 25px 10px 25px;
+  position: absolute;
+  left: 40%;
+  top: 20%;
+
+  .form-input {
+    margin-top: 30px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+    
+    a {
+      text-decoration: none;
+      color: black;
+      width: 45%;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+  
+  .form-buttons button {
+    height: 30px;
+    width: 45%;
+  }
+}
+
 
 
 // New Message
@@ -185,8 +221,6 @@ button:active {
   }
 }
  
-
-
 
 
 // Message Delete
@@ -244,7 +278,25 @@ button:active {
 
 
 // Error page
-.error-page {
-  background: #f7f6e5;
-  background: linear-gradient(90deg, #f7f6e5 0%, #cee5d0 48%, #f7f6e5 100%);
+.error-container {
+  text-align: center;
+}
+
+
+.error-status-div {
+  margin: 100px 0;
+  text-align: center;
+  text-shadow: 2px 2px 2px #ecb390;
+
+  h1 {
+    font-size: 8rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+  }
 }

@@ -8,15 +8,13 @@
     <div class='error-container'>
     <%- include('./partials/header') %>
 
-    <div class='error-status-div'>
-      <h1><%= error.status %></h1>
-      <h2><%= message %></h2>
-    </div>
+      <div class='error-status-div'>
+        <h1><%= error.status %></h1>
+        <h2><%= message %></h2>
+      </div>
 
-    <!-- <h1><%= message %></h1>
-    <h2><%= error.status %></h2>
-    <pre><%= error.stack %></pre> -->
+      <a href='/'>Click here to return to the homepage</a>
 
-    <a href='/'>Click here to return to the homepage</a>
+      <pre><%= error.stack %></pre> -->
 
 <%- include('./partials/footer') %>
