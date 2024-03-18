@@ -4,6 +4,9 @@
   </a>
 
   <% if (user) { %>
-    <a href='/logout'><button type='button' id='logout-btn'>Logout</button></a>
+    <% if (user.isAdmin === true) { %>
+      <h2>ADMINISTRATOR</h2>
+    <% } %>
+      <a href='/logout'><button type='button' id='logout-btn'>Logout</button></a>
   <% } %> 
 </header>

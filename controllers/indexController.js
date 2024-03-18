@@ -104,6 +104,9 @@ exports.user_sign_up_post = [
           return next(err);
         } else {
           user.password = hashedPassword;
+          if (user.isAdmin === true) {
+            user.member = true;
+          }
           await user.save();
         }
       });      

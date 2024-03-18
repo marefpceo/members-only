@@ -40,6 +40,13 @@ header {
   h1 {
     margin: 0;
     padding: 10px;
+    text-shadow: 2px 2px 2px @accent;
+  }
+
+  h2 {
+    text-shadow: 2px 2px 2px @accent;
+    padding: 10px;
+    border-radius: 5px;
   }
 
   a {
@@ -56,7 +63,7 @@ header {
 
 aside {
   grid-column: 1;
-  grid-row: 2 / span 3;
+  grid-row: 2 ;
   padding: 10px 40px;
   border-right: 2px solid @accent;
 }
@@ -65,10 +72,13 @@ section {
   grid-column: 2;
   grid-row: 2;
   padding: 10px 40px;
+  overflow-y: scroll;
 }
 
 footer {
-  grid-column: 1 / span 2;
+  grid-column: 2;
+  grid-row: 3;
+  height: 150px;
 }
 
 
