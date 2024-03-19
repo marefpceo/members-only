@@ -16,15 +16,16 @@ body {
   background: #f7f6e5;
   background: linear-gradient(90deg, #f7f6e5 0%, #cee5d0 48%, #f7f6e5 100%);
   margin: 0;
+  min-height: 100vh;
 }
 
 .container {
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  grid-template-rows: 10% 80% 10%;
   grid-template-columns: minmax(250px, 300px) minmax(500px, 100%);
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  height: 100%;
 }
 
 header {
@@ -37,6 +38,7 @@ header {
   margin: 0;
   padding: 0 40px;
   width: 100%;
+  height: 100%;
 
   h1 {
     margin: 0;
@@ -73,11 +75,14 @@ section {
   grid-column: 2;
   grid-row: 2;
   padding: 10px 40px;
+  overflow-y: auto;
 }
 
 footer {
-  grid-column: 1;
+  grid-column: 1 / span 2;
   grid-row: 3;
+  height: 100%;
+  border-top: 2px solid @background-dark;
 }
 
 
