@@ -58,8 +58,8 @@ header {
   }
 
   button {
-    width: 150px;
-    height: 40px;
+    width: 120px;
+    height: 30px;
     font-size: 14pt;
   }
 }
@@ -83,6 +83,7 @@ footer {
   grid-row: 3;
   height: 100%;
   border-top: 2px solid @background-dark;
+  text-align: center;
 }
 
 
@@ -142,7 +143,7 @@ button:active {
   background-color: @login-background;
   padding: 25px;
   position: absolute;
-  left: 40%;
+  left: 37%;
   top: 20%;
 
   .form-input {
@@ -228,6 +229,7 @@ button:active {
 .new-message {
   .login();
   min-width: 350px;
+  left: 45%;
 
   #message_text {
     height: 150px;
@@ -293,14 +295,20 @@ button:active {
 
 // Error page
 .error-container {
+  display: grid;
+  grid-template-rows: 10% 80% 10%;
+  grid-template-columns: 100%;
+  height: 100%;
   text-align: center;
 }
 
 
 .error-status-div {
   margin: 100px 0;
-  text-align: center;
   text-shadow: 2px 2px 2px #ecb390;
+  align-self: center;
+  justify-self: center;
+  width: 100%;
 
   h1 {
     font-size: 8rem;

@@ -75,7 +75,14 @@ exports.user_sign_up_post = [
     .escape(),
   body('isAdmin')
     .trim()
-    .matches(`${process.env.ADMIN_ACCESS}`)
+    .custom((value) => {
+      if (value === '' || value === process.env.ADMIN_ACCESS) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    // .matches(`${process.env.ADMIN_ACCESS}`)
     .withMessage('Incorrect Admin Access Code')
     .escape(),    
 
@@ -94,7 +101,7 @@ exports.user_sign_up_post = [
       res.render('sign_up', {
         title: 'Sign Up',
         user: user,
-        confirm_password: req.body.confirm_password,
+        confirm_password: user === 'undefined' ? '' : req.body.confirm_password,
         errors: errors.array(),
       });
       return;
@@ -135,6 +142,7 @@ exports.join_club_post = [
     .isLength({ min: 3 })
     .withMessage('Passcode must be at least 3 characters in length')
     .matches(`${process.env.ACCESS_CODE}`)
+    .withMessage('Invalid Access Code!!')
     .escape(),
 
   asyncHandller(async (req, res, next) => {

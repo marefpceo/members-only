@@ -7,6 +7,9 @@
     <% if (user.isAdmin === true) { %>
       <h2>ADMINISTRATOR</h2>
     <% } %>
+    <% if (user || (typeof errors === 'undefined')) { %>
       <a href='/logout'><button type='button' id='logout-btn'>Logout</button></a>
+    <% } %>
+      
   <% } %> 
 </header>

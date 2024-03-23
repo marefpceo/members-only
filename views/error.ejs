@@ -11,10 +11,8 @@
       <div class='error-status-div'>
         <h1><%= error.status %></h1>
         <h2><%= message %></h2>
+        <a href='/'>Click here to return to the homepage</a>
+        <pre><%= error.stack %></pre>
       </div>
-
-      <a href='/'>Click here to return to the homepage</a>
-
-      <pre><%= error.stack %></pre> -->
 
 <%- include('./partials/footer') %>
