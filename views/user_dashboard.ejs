@@ -1,7 +1,22 @@
 <%- include('./partials/head') %>
+<%- include('./partials/header') %>
+<%- include('./partials/aside') %>
 
-    <h1><%= title %></h1>
-    <p>Welcome to Homepage</p>
+    <section>
+        <h1><%= title %></h1>
+        <div class='user-info'>
+            <h2>User Info</h2>
+            <p><strong>Name:</strong> <%= user.fullname %></p>
+            <p><strong>Member since:</strong></p>
+            <p><strong>Message Total:</strong></p>
+        </div>
+        <div class='user-messages'>
+            <p>messages. . . </p>
+        </div>
+        <%= user %>
+        <%= messages %>
+        <%= user_list %>
+    </section>
 
 
 <%- include('./partials/footer') %>

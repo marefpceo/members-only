@@ -93,4 +93,7 @@ router.get('/message/:id', index_controller.delete_message_get);
 // POST reqest for message delete
 router.post('/message/:id', index_controller.delete_message_post);
 
+// GET request for user dashboard
+router.get('/user/:id', index_controller.user_dashboard_get);
+
 module.exports = router;

@@ -239,3 +239,16 @@ exports.delete_message_post = (async (req, res, next) => {
   await Message.findByIdAndDelete(req.params.id).exec();
   res.redirect('/');
 });
+
+// GET user dashboard
+exports.user_dashboard_get = (async (req, res, next) => {
+  const user_messages = await Message.find({ author: req.user.id }).exec();
+  const user_list = await User.find().exec();
+
+  res.render('user_dashboard', {
+    title: 'Dashboard',
+    user: req.user,
+    messages: user_messages,
+    user_list: user_list,
+  });
+})
