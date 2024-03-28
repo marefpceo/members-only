@@ -7,15 +7,32 @@
         <div class='user-info'>
             <h2>User Info</h2>
             <p><strong>Name:</strong> <%= user.fullname %></p>
-            <p><strong>Member since:</strong></p>
-            <p><strong>Message Total:</strong></p>
+            <p><strong>Member since:</strong> <%= typeof user === 'undefined' ? '' : user.member_since_formatted %></p>
+            <p><strong>Club Acces: </strong> <%= user.member === true ? 'Yes' : 'No' %></p>
+            <p><strong>Administrator:</strong> <%= user.isAdmin === true ? 'Yes' : 'No' %></p>
+            <p><strong>Messages Written:</strong> <%= message_count %></p>
         </div>
+        <hr>
         <div class='user-messages'>
-            <p>messages. . . </p>
+            <h2><strong>Messages </strong></h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope='col'>Date</th>
+                        <th scope='col'>Title</th>
+                        <th scope='col'>Message</th>
+                    </tr>
+                </thead>
+                    <% messages.forEach(message => { %>
+                     <tbody>
+                         <th scope='row'><%= message.timestamp %></th>
+                         <td><%= message.message_title %></td>
+                         <td><%= message.message_text %></td>
+                     </tbody>
+                    <% }) %>
+            </table>
         </div>
-        <%= user %>
-        <%= messages %>
-        <%= user_list %>
+        <hr>
     </section>
 
 

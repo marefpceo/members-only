@@ -111,6 +111,7 @@ exports.user_sign_up_post = [
           return next(err);
         } else {
           user.password = hashedPassword;
+          user.member_since = Date.now();
           if (user.isAdmin === true) {
             user.member = true;
           }
@@ -244,11 +245,13 @@ exports.delete_message_post = (async (req, res, next) => {
 exports.user_dashboard_get = (async (req, res, next) => {
   const user_messages = await Message.find({ author: req.user.id }).exec();
   const user_list = await User.find().exec();
+  const message_count = await Message.countDocuments({ author: req.user.id }).exec();
 
   res.render('user_dashboard', {
-    title: 'Dashboard',
+    title: `${req.user.username}'s Dashboard`,
     user: req.user,
     messages: user_messages,
+    message_count: message_count,
     user_list: user_list,
   });
 })
