@@ -253,6 +253,22 @@ button:active {
 }
 
 
+.admin-member-detail {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  margin: 30px 0 25px 0;
+
+  .member-info {
+    grid-column: 1;
+    border-right: 1px solid @background-dark;
+  }
+
+  .user-info {
+    grid-column: 2;
+    margin-left: 25px;
+  }
+}
+
 // New Message
 .new-message {
   .login();

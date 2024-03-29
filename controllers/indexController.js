@@ -76,7 +76,7 @@ exports.user_sign_up_post = [
   body('isAdmin')
     .trim()
     .custom((value) => {
-      if (value === '' || value === process.env.ADMIN_ACCESS) {
+      if (value === '' || value === `${process.env.ADMIN_ACCESS}`) {
         return true;
       } else {
         return false;
@@ -215,7 +215,7 @@ exports.new_message_post = [
 ];
 
 // GET message to delete
-exports.delete_message_get = (async (req, res, next) => {
+exports.delete_message_get = asyncHandller(async (req, res, next) => {
   const message = await Message.findById(req.params.id).populate('author').exec();
 
   if(!req.user){
@@ -236,15 +236,15 @@ exports.delete_message_get = (async (req, res, next) => {
 });
 
 // POST Handle message delete
-exports.delete_message_post = (async (req, res, next) => {
+exports.delete_message_post = asyncHandller(async (req, res, next) => {
   await Message.findByIdAndDelete(req.params.id).exec();
   res.redirect('/');
 });
 
 // GET user dashboard
-exports.user_dashboard_get = (async (req, res, next) => {
+exports.user_dashboard_get = asyncHandller(async (req, res, next) => {
   const user_messages = await Message.find({ author: req.user.id }).exec();
-  const user_list = await User.find().exec();
+  const user_list = await User.find().sort({ username: 1 }).exec();
   const message_count = await Message.countDocuments({ author: req.user.id }).exec();
 
   res.render('user_dashboard', {
@@ -253,5 +253,24 @@ exports.user_dashboard_get = (async (req, res, next) => {
     messages: user_messages,
     message_count: message_count,
     user_list: user_list,
+  });
+})
+
+// POST user dashboard
+exports.user_dashboard_post = asyncHandller(async (req, res, next) => {
+  const user_messages = await Message.find({ author: req.user.id }).exec();
+  const user_list = await User.find().sort({ username: 1 }).exec();
+  const message_count = await Message.countDocuments({ author: req.user.id }).exec();
+  const current_user = await User.findOne({ username: req.body.user_list }).exec();
+  const user_message_count = await Message.countDocuments({ author: current_user.id }).exec(); 
+
+  res.render('user_dashboard', {
+    title: `${req.user.username}'s Dashboard`,
+    user: req.user,
+    messages: user_messages,
+    user_message_count: user_message_count,
+    user_list: user_list,
+    current_user: current_user,
+    message_count: message_count,
   });
 })

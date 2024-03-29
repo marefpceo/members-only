@@ -5,7 +5,7 @@
     <section>
         <h1><%= title %></h1>
         <div class='user-info'>
-            <h2>User Info</h2>
+            <h2>My Info</h2>
             <p><strong>Name:</strong> <%= user.fullname %></p>
             <p><strong>Member since:</strong> <%= typeof user === 'undefined' ? '' : user.member_since_formatted %></p>
             <p><strong>Club Acces: </strong> <%= user.member === true ? 'Yes' : 'No' %></p>
@@ -33,7 +33,37 @@
             </table>
         </div>
         <hr>
-    </section>
 
+        <% if (user.isAdmin) { %>
+         <div class='admin-member-detail'>
+             <div class='member-info'>
+                <h2>Member Info</h2>
+                <form method='post'>
+                    <label for='user_list'>Choose a member:</label>
+                    <select name='user_list' id='user_list' onchange='this.form.submit()'>
+                        <option value=''>--Make a selection--</option>
+                        <% user_list.forEach(list_item => { %>
+                            <% if (list_item.username !== user.username) { %>
+                                <option value='<%= list_item.username %>'><%= list_item.username %></option>
+                            <% } %>
+                        <% }) %>
+                    </select>
+                </form>
+             </div>
+             <div class='user-info'>
+                <% if (typeof current_user !== 'undefined') { %>
+                    <h2><%= current_user.fullname %>'s Info</h2>
+                    <p><strong>First Name:</strong> <%= current_user.first_name %> </p>
+                    <p><strong>Last Name:</strong> <%= current_user.last_name %> </p>
+                    <p><strong>Username:</strong> <%= current_user.username %> </p>
+                    <p><strong>Member since:</strong> <%= typeof current_user.username === 'undefined' ? '' : current_user.member_since_formatted %></p>
+                    <p><strong>Club Acces: </strong> <%= current_user.member === true ? 'Yes' : 'No' %></p>
+                    <p><strong>Administrator:</strong> <%= current_user.isAdmin === true ? 'Yes' : 'No' %></p>
+                    <p><strong>Messages Written:</strong> <%= user_message_count %></p>
+                <% } %>
+             </div>
+         </div>
+        <% } %>
+    </section>
 
 <%- include('./partials/footer') %>
