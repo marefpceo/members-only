@@ -38,14 +38,16 @@
         <a href='/'><button type='button'>Cancel</button></a>
       </div>
     </form>
+
+    <ul>
+      <% if (typeof errors !== 'undefined') { %>
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+         <% }) %>
+      <% } %>
+    </ul>
   </div>
 
-  <ul>
-    <% if (typeof errors !== 'undefined') { %>
-      <% errors.forEach(error => { %>
-        <li><%= error.msg %></li>
-       <% }) %>
-    <% } %>
-  </ul>
+  
 
 <%- include('./partials/footer') %>

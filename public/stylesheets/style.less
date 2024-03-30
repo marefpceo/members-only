@@ -2,6 +2,7 @@
 @background-light: #fcf8e8;
 @background-dark: #94b49f;
 @accent: #ecb390;
+@danger: #d30000;
 @message-background: fade(#fcf8e8, 70%);
 @login-background: fade(#fcf8e8, 50%);
 
@@ -135,6 +136,9 @@ button:active {
   padding: 0 0 10px 0;
 }
 
+.header-accent {
+  text-shadow: 2px 2px 2px @accent;
+}
 
 .login {
   text-align: center;
@@ -181,46 +185,17 @@ button:active {
     height: 30px;
     width: 45%;
   }
+
+  ul {
+    text-align: left;
+    margin: auto;
+    color: @danger;
+   }
 }
 
 .sign-up-div {
   .login();
-}
 
-.join-div {
-  text-align: center;
-  border: 1px solid @accent;
-  border-radius: 8px;
-  background-color: @login-background;
-  padding: 15px 25px 10px 25px;
-  position: absolute;
-  left: 40%;
-  top: 20%;
-
-  .form-input {
-    margin-top: 30px;
-  }
-  
-  .form-buttons {
-    display: flex;
-    justify-content: center;
-    margin: 25px 0;
-    
-    a {
-      text-decoration: none;
-      color: black;
-      width: 45%;
-
-      button {
-        width: 100%;
-      }
-    }
-  }
-  
-  .form-buttons button {
-    height: 30px;
-    width: 45%;
-  }
 }
 
 
@@ -229,6 +204,7 @@ button:active {
     margin-left: 25px;
   }
 }
+
 
 .user-messages {
   margin: 30px 0;

@@ -16,7 +16,6 @@ exports.index = asyncHandller(async (req, res, next) => {
     title: 'Members Only',
     user: req.user,
     messages: allMessages,
-    messages: allMessages,
   });
 });
 
@@ -25,6 +24,7 @@ exports.login_get = asyncHandller(async (req, res, next) => {
   res.render('login', {
     title: 'Login',
     user: req.user,
+    errors: req.session.messages || [],
   });
 });
 
@@ -41,17 +41,17 @@ exports.user_sign_up_post = [
   body('first_name')
     .trim()
     .isLength({ min: 3, max: 100 })
-    .withMessage('Must contain a minimum of 3 characters')
+    .withMessage('First Name must contain a minimum of 3 characters')
     .escape(),
   body('last_name')
     .trim()
     .isLength({ min: 3, max: 100 })
-    .withMessage('Must contain a minimum of 3 characters')
+    .withMessage('Last Name must contain a minimum of 3 characters')
     .escape(),
   body('username')
     .trim()
     .isLength({ min: 3, max: 100 })
-    .withMessage('Must contain a minimum of 3 characters')
+    .withMessage('Username must contain a minimum of 3 characters')
     .custom(async value => {
       const user = await User.findOne({ username: new RegExp('^'+value+'$', "i")}).exec();
       if (user) {
@@ -118,8 +118,13 @@ exports.user_sign_up_post = [
           await user.save();
         }
       });      
-      res.redirect('/login');
-    }
+      req.login(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect('/');
+      });
+    };
   }),
 ];
 

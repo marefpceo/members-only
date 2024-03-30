@@ -1,26 +1,28 @@
 <%- include('./partials/head') %>
 <%- include('./partials/header') %>
 
-    <div class='join-div'>
-      <h1><%= title %></h1>
-      <p>Enter the secret code for private access!</p>
-      <form method='post'>
-        <div class='form-input'>
-          <div>
+    <section>
+      <div class='login'>
+        <h1><%= title %></h1>
+        <p>Enter the secret code for private access!</p>
+        <form method='post'>
+          <div class='form-input'>
             <label for='private_access'>Access Code: </label>
-            <input type='password' name='private_access' id='private_access' autofocus >
+            <input type='password' name='private_access' id='private_access' autofocus>
           </div>
-        </div>
-        <div class='form-buttons'> 
-          <button type='submit'>Join</button>
-          <a href='/'><button type='button'>Cancel</button></a>
-        </div>
+          <div class='form-buttons'>
+            <button type='submit'>Join</button>
+            <a href='/'><button type='button'>Cancel</button></a>
+          </div>
+        </form>
         <% if (typeof errors !== 'undefined') { %>
-         <% errors.forEach(error => { %>
-          <p><%= error.msg %></p>
-         <% }) %>
-        <% } %>
-      </form>
-    </div>
+          <ul>
+            <% errors.forEach(error => { %>
+             <li><%= error.msg %></li>
+            <% }) %>
+          </ul>
+         <% } %>
+      </div>
+    </section>
 
 <%- include('./partials/footer') %>

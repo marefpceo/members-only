@@ -13,7 +13,7 @@ passport.use(
     try {
       const user = await User.findOne({ username });
       if(!user) {
-        return done(null, false, { error: 'Incorrect username'});
+        return done(null, false, { message: 'Incorrect username'});
       }
 
       const passwordsMatch = await bcrypt.compare(
@@ -24,7 +24,7 @@ passport.use(
       if (passwordsMatch) {
         return done(null, user); 
       } else {
-        return done(null, false, { error: 'Incorrect password' });
+        return done(null, false, { message: 'Incorrect password' });
       } 
     } catch (err) {
       return done(err);
@@ -55,7 +55,9 @@ router.get('/login', index_controller.login_get);
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
-}));
+  failureMessage: true,
+  }),
+);
 
 // POST request for logout
 router.get('/logout', (req, res, next) => {

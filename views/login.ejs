@@ -3,7 +3,7 @@
 
     <section>
       <div class='login'>
-        <h1><%= title %></h1>
+        <h1 class='header-accent'><%= title %></h1>
         <p>Enter Username and Password to login!</p>
         <form method='post'>
           <div class='form-input'>
@@ -19,6 +19,12 @@
             <a href='/'><button type='button'>Cancel</button></a>
           </div>
         </form>
+
+        <ul>
+          <% if (errors.length > 0) { %>
+            <li><%= errors[errors.length - 1] %></li>
+           <% } %>
+        </ul>
       </div>
     </section>
 
