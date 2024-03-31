@@ -11,7 +11,7 @@
     <hr>
     <div class='message-delete-body'>
       <h3>Message</h3>
-      <p><%= message.message_text %></p>
+      <p><%= convertEscape(message.message_text) %></p>
     </div>
     <hr>
     <p>Click below to delete this messages. This is not reversable</p>

@@ -26,8 +26,8 @@
                     <% messages.forEach(message => { %>
                      <tbody>
                          <th scope='row'><%= message.timestamp %></th>
-                         <td><%= message.message_title %></td>
-                         <td><%= message.message_text %></td>
+                         <td><%= convertEscape(message.message_title) %></td>
+                         <td><%= convertEscape(message.message_text) %></td>
                      </tbody>
                     <% }) %>
             </table>

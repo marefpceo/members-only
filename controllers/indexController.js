@@ -8,6 +8,9 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
 const Message = require('../models/messageModel');
 
+// Helper function to convert escaped characters before displaying client side
+const { convertEscape } = require('../public/javascripts/helpers');
+
 
 // Display index page
 exports.index = asyncHandller(async (req, res, next) => {
@@ -16,6 +19,7 @@ exports.index = asyncHandller(async (req, res, next) => {
     title: 'Members Only',
     user: req.user,
     messages: allMessages,
+    convertEscape: convertEscape,
   });
 });
 
@@ -236,6 +240,7 @@ exports.delete_message_get = asyncHandller(async (req, res, next) => {
       title: 'Message Info',
       user: req.user,
       message: message,
+      convertEscape: convertEscape,
     });
   }
 });
@@ -258,6 +263,7 @@ exports.user_dashboard_get = asyncHandller(async (req, res, next) => {
     messages: user_messages,
     message_count: message_count,
     user_list: user_list,
+    convertEscape: convertEscape,
   });
 })
 
