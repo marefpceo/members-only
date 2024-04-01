@@ -11,7 +11,6 @@ const Message = require('../models/messageModel');
 // Helper function to convert escaped characters before displaying client side
 const { convertEscape } = require('../public/javascripts/helpers');
 
-
 // Display index page
 exports.index = asyncHandller(async (req, res, next) => {
   const allMessages = await Message.find().populate('author').sort({ timestamp: 1 });
@@ -86,7 +85,6 @@ exports.user_sign_up_post = [
         return false;
       }
     })
-    // .matches(`${process.env.ADMIN_ACCESS}`)
     .withMessage('Incorrect Admin Access Code')
     .escape(),    
 
@@ -100,7 +98,6 @@ exports.user_sign_up_post = [
       isAdmin: req.body.isAdmin === `${process.env.ADMIN_ACCESS}` ? true : false,
     });
 
-    
     if(!errors.isEmpty()) {
       res.render('sign_up', {
         title: 'Sign Up',
@@ -132,6 +129,7 @@ exports.user_sign_up_post = [
   }),
 ];
 
+// Displays join club page on GET
 exports.join_club_get = asyncHandller(async (req, res, next) => {
   if(!req.user) {
     const err = new Error('Unauthorized Access');

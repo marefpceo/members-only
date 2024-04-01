@@ -3,7 +3,7 @@
 
   <div class='message-delete'>
     <div class='message-delete-header'>
-      <h2>Title: <%= message.message_title %></h2>
+      <h2>Title: <%= convertEscape(message.message_title) %></h2>
       <p><strong>Created on:</strong> <%= message.timestamp_formatted%></p>
       <p><strong>Author:</strong> <%= message.author.first_name %> <%= message.author.last_name %></p>
       <p><strong>Username:</strong> <%= message.author.username%></p>

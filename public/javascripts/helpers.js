@@ -1,5 +1,4 @@
 module.exports = { convertEscape(str) {
-  let convertedStr = str;
   return (str.replace(/&quot;/g, '"')
     .replace(/&#x27;/g, "'")
     .replace(/&lt;/g, '<')

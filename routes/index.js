@@ -8,6 +8,7 @@ const router = express.Router();
 // Require controller modules
 const index_controller = require('../controllers/indexController');
 
+// Passport configuration and verify callback. Checks username and password against database users
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
