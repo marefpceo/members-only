@@ -281,5 +281,6 @@ exports.user_dashboard_post = asyncHandller(async (req, res, next) => {
     user_list: user_list,
     current_user: current_user,
     message_count: message_count,
+    convertEscape: convertEscape,
   });
 })
