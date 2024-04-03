@@ -6,15 +6,15 @@
         <h1><%= title %></h1>
         <div class='user-info'>
             <h2>My Info</h2>
-            <p><strong>Name:</strong> <%= user.fullname %></p>
-            <p><strong>Member since:</strong> <%= typeof user === 'undefined' ? '' : user.member_since_formatted %></p>
-            <p><strong>Club Acces: </strong> <%= user.member === true ? 'Yes' : 'No' %></p>
-            <p><strong>Administrator:</strong> <%= user.isAdmin === true ? 'Yes' : 'No' %></p>
-            <p><strong>Messages Written:</strong> <%= message_count %></p>
+            <p><strong>Name:</strong><%= user.fullname %></p>
+            <p><strong>Member since:</strong><%= typeof user === 'undefined' ? '' : user.member_since_formatted %></p>
+            <p><strong>Club Acces: </strong><%= user.member === true ? 'Yes' : 'No' %></p>
+            <p><strong>Administrator:</strong><%= user.isAdmin === true ? 'Yes' : 'No' %></p>
+            <p><strong>Messages Written:</strong><%= message_count %></p>
         </div>
         <hr>
         <div class='user-messages'>
-            <h2><strong>Messages </strong></h2>
+            <h2><strong>Messages</strong></h2>
             <table>
                 <thead>
                     <tr>
@@ -44,7 +44,11 @@
                         <option value=''>--Make a selection--</option>
                         <% user_list.forEach(list_item => { %>
                             <% if (list_item.username !== user.username) { %>
-                                <option value='<%= list_item.username %>'><%= list_item.username %></option>
+                                <% if ((typeof current_user !== 'undefined') && (list_item.username === current_user.username)) { %>
+                                    <option value='<%= list_item.username %>' selected ><%= list_item.username %></option>
+                                <% } else { %>
+                                    <option value='<%= list_item.username %>'><%= list_item.username %></option>
+                                <% } %>
                             <% } %>
                         <% }) %>
                     </select>
