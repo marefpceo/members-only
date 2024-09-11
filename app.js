@@ -6,11 +6,9 @@ const helmet = require('helmet');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const lessMiddleware = require('less-middleware');
 const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
 
 const indexRouter = require('./routes/index');
 
@@ -23,16 +21,6 @@ const limiter = RateLimit({
   max: 20,
 });
 
-// set up db connection
-const mongoose = require('mongoose');
-const mongoDB = process.env.MONGODB_URI;
-
-main().catch(err => console.log(err));
-mongoose.set('strictQuery', false);
-
-async function main() {
-  await mongoose.connect(mongoDB);
-}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -45,7 +33,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // passport session middleware
@@ -53,11 +40,6 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI,
-    ttl: 1 * 24 * 60 * 60, // Sessions expire after 24 hours. Default is 14 days (Day * Hour * Min * Sec)
-    autoRemove: 'native',
-  }),
 }));
 app.use(passport.authenticate('session'));
 

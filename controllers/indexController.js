@@ -4,10 +4,6 @@ const asyncHandller = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
-// Required models
-const User = require('../models/userModel');
-const Message = require('../models/messageModel');
-
 // Helper function to convert escaped characters before displaying client side
 const { convertEscape } = require('../public/javascripts/helpers');
 

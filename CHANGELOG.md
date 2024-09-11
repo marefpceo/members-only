@@ -9,18 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- v1.1 Brazilian Portuguese translation.
+- v1.0 PostgreSQL Database.
+
 
 
 ### Changed
 
-- Use frontmatter title & description in each language version template
-- Replace broken OpenGraph image with an appropriately-sized Keep a Changelog 
-  image that will render properly (although in English for all languages)
-- Fix OpenGraph title & description for all languages so the title and 
-description when links are shared are language-appropriate
+- v1.9 Node version from v16.17.0 to v20.17.0
 
 ### Removed
+
+- v1.0 MongoDB
+- v1.0 MongooseJS
+- v1.0 Connect Mongo
+- v1.0 Less-middleware
+- v1.0 Unused Models
 
 
 ### Fixed
