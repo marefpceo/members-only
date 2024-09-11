@@ -11,7 +11,7 @@ const index_controller = require('../controllers/indexController');
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const user = '';
+      const user =' await User.findOne({ username })';
       if(!user) {
         return done(null, false, { message: 'Incorrect username'});
       }
@@ -38,7 +38,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = '';
+    const user = 'await User.findById(id)';
     done(null, user);
   } catch (err) {
     done(err);

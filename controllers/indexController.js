@@ -4,12 +4,14 @@ const asyncHandller = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
+const db = require('../db/queries');
+
 // Helper function to convert escaped characters before displaying client side
 const { convertEscape } = require('../public/javascripts/helpers');
 
 // Display index page
 exports.index = asyncHandller(async (req, res, next) => {
-  const allMessages = await Message.find().populate('author').sort({ timestamp: 1 });
+  const allMessages = await db.getAllMessages();
   res.render('index', { 
     title: 'Members Only',
     user: req.user,
@@ -52,8 +54,10 @@ exports.user_sign_up_post = [
     .isLength({ min: 3, max: 100 })
     .withMessage('Username must contain a minimum of 3 characters')
     .custom(async value => {
-      const user = await User.findOne({ username: new RegExp('^'+value+'$', "i")}).exec();
-      if (user) {
+      const username = new RegExp('^'+value+'$', "i");
+      const user = await db.findUsername(username);
+      console.log(user);
+      if (user.length > 0) {
         throw new Error('Username already in use');
         }
       })
@@ -86,13 +90,13 @@ exports.user_sign_up_post = [
 
   asyncHandller(async (req, res, next) => {
     const errors = validationResult(req);
-    const user = new User({
+    const user = {
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       username: req.body.username,
       password: req.body.password,
       isAdmin: req.body.isAdmin === `${process.env.ADMIN_ACCESS}` ? true : false,
-    });
+    };
 
     if(!errors.isEmpty()) {
       res.render('sign_up', {
@@ -112,7 +116,8 @@ exports.user_sign_up_post = [
           if (user.isAdmin === true) {
             user.member = true;
           }
-          await user.save();
+          await db.createNewUser(user.first_name, user.last_name, user.username, user.password, 
+            user.isAdmin);
         }
       });      
       req.login(user, (err) => {
