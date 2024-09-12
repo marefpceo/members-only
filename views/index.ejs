@@ -9,7 +9,7 @@
                 <div class='message-header'>
                     <h3><%= convertEscape(message.message_title) %></h3>
                     <% if (user && (user.isAdmin === true)) { %>
-                        <a href='<%= message.url %>'><button type='button'>Delete</button></a>
+                        <a href='/message/<%= message.id %>'><button type='button'>Delete</button></a>
                     <% } %>
                 </div>
                 <hr>

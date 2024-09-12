@@ -41,11 +41,22 @@ async function createNewMessage(message_title, message_text, author) {
     VALUES (($1), ($2), ($3))
   `, [message_title, message_text, author]);
 }
+
+// Get selected message
+async function getSelectedMessage(id) {
+  const { rows } = await pool.query(`
+    SELECT messages.*, users.first_name, users.last_name, users.username FROM messages
+    LEFT JOIN users ON messages.author = users.id
+    WHERE messages.id = ($1);
+  `, [id]);
+  return rows;
+}
  
 module.exports = {
   getAllMessages,
   findUser,
   createNewUser,
   grantClubAccess,
-  createNewMessage
+  createNewMessage,
+  getSelectedMessage
 }
