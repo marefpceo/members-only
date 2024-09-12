@@ -9,17 +9,18 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
+const pool = require('./db/pool');
 
 const indexRouter = require('./routes/index');
 
 const app = express();
 
 // Set up rate limiter: maximum of twenty requests per minute
-const RateLimit = require("express-rate-limit");
-const limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 20,
-});
+// const RateLimit = require("express-rate-limit");
+// const limiter = RateLimit({
+//   windowMs: 1 * 60 * 1000, // 1 minute
+//   max: 20,
+// });
 
 
 // view engine setup
@@ -28,7 +29,7 @@ app.set('view engine', 'ejs');
 
 app.use(compression());
 app.use(helmet());
-app.use(limiter);
+// app.use(limiter);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -37,9 +38,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // passport session middleware
 app.use(session({
-  secret: 'keyboard cat',
+  store: new (require('connect-pg-simple')(session))({
+    // Insert connect-pg-simple options here
+    pool: pool,
+  }),
+  secret: process.env.COOKIE_SECRET,
   resave: false,
   saveUninitialized: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
 app.use(passport.authenticate('session'));
 

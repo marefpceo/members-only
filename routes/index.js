@@ -36,12 +36,16 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, {
+    id: user.id,
+    username: user.username,
+    member: user.member,
+    isAdmin: user.is_admin
+  });
 });
 
-passport.deserializeUser(async (username, done) => {
+passport.deserializeUser(async (user, done) => {
   try {
-    const user = await db.findUser(username);
     done(null, user);
   } catch (err) {
     done(err);
