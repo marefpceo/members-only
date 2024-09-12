@@ -42,7 +42,7 @@ async function createNewMessage(message_title, message_text, author) {
   `, [message_title, message_text, author]);
 }
 
-// Get selected message
+// Get selected message and message author
 async function getSelectedMessage(id) {
   const { rows } = await pool.query(`
     SELECT messages.*, users.first_name, users.last_name, users.username FROM messages
@@ -51,6 +51,14 @@ async function getSelectedMessage(id) {
   `, [id]);
   return rows;
 }
+
+// Delete selcted message
+async function deleteSelectedMessage(id) {
+  await pool.query(`
+    DELETE FROM messages
+    WHERE id = ($1)
+  `, [id]);
+}
  
 module.exports = {
   getAllMessages,
@@ -58,5 +66,6 @@ module.exports = {
   createNewUser,
   grantClubAccess,
   createNewMessage,
-  getSelectedMessage
+  getSelectedMessage,
+  deleteSelectedMessage
 }
