@@ -176,12 +176,6 @@ exports.join_club_post = [
   })
 ];
 
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-
-
 // GET and display create message form
 exports.new_message_get = asyncHandller(async (req, res, next) => {
   if(!req.user){
@@ -211,11 +205,11 @@ exports.new_message_post = [
 
   asyncHandller(async (req, res, next) => {
     const errors = validationResult(req);
-    const message = new Message({
-      author: req.user,
+    const message = {
+      author: req.user.id,
       message_title: req.body.message_title,
       message_text: req.body.message_text,
-    });
+    };
 
     if(!errors.isEmpty()) {
       res.render('new_message_form', {
@@ -225,11 +219,18 @@ exports.new_message_post = [
       });
       return;
     } else {
-      await message.save();
+      await db.createNewMessage(message.message_title, message.message_text, message.author);
       res.redirect('/');
     }
   }),
 ];
+
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
 
 // GET message to delete
 exports.delete_message_get = asyncHandller(async (req, res, next) => {

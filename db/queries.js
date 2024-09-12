@@ -34,9 +34,18 @@ async function grantClubAccess(id) {
   `, [id]);
 }
 
+// Create a new message
+async function createNewMessage(message_title, message_text, author) {
+  await pool.query(`
+    INSERT INTO messages (message_title, message_text, author)
+    VALUES (($1), ($2), ($3))
+  `, [message_title, message_text, author]);
+}
+ 
 module.exports = {
   getAllMessages,
   findUser,
   createNewUser,
-  grantClubAccess
+  grantClubAccess,
+  createNewMessage
 }
