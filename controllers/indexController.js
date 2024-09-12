@@ -93,7 +93,7 @@ exports.user_sign_up_post = [
       last_name: req.body.last_name,
       username: req.body.username,
       password: req.body.password,
-      member: false,
+      member: req.body.isAdmin === `${process.env.ADMIN_ACCESS}` ? true : false,
       isAdmin: req.body.isAdmin === `${process.env.ADMIN_ACCESS}` ? true : false,
     };
 
@@ -111,10 +111,6 @@ exports.user_sign_up_post = [
           return next(err);
         } else {
           user.password = hashedPassword;
-          user.member_since = Date.now();
-          if (user.isAdmin === true) {
-            user.member = true;
-          }
           await db.createNewUser(user.first_name, user.last_name, user.username, user.password, 
             user.member, user.isAdmin);
         }
@@ -145,13 +141,6 @@ exports.join_club_get = asyncHandller(async (req, res, next) => {
   }
 });
 
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-
-
-
 // Handle Join club POST
 exports.join_club_post = [
   body('private_access')
@@ -164,7 +153,8 @@ exports.join_club_post = [
 
   asyncHandller(async (req, res, next) => {
     const errors = validationResult(req);
-    console.log(req.user);
+    const allMessages = await db.getAllMessages();
+
     if(!errors.isEmpty()) {
       res.render('join_club', {
         title: 'Join the Club',
@@ -173,12 +163,24 @@ exports.join_club_post = [
         user: req.user,
       })    
     } else {
-      console.log(req.user);
       await db.grantClubAccess(req.user.id);
-      res.redirect('/');
+      const updatedUser = await db.findUser(req.user.username);
+
+      res.render('index', {
+        title: 'Members Only',
+        user: updatedUser[0],
+        messages: allMessages,
+        convertEscape: convertEscape
+      });
     }
   })
 ];
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
 
 // GET and display create message form
 exports.new_message_get = asyncHandller(async (req, res, next) => {
