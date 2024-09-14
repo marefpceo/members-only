@@ -6,58 +6,56 @@ const helmet = require('helmet');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const lessMiddleware = require('less-middleware');
 const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const pool = require('./db/pool');
 
 const indexRouter = require('./routes/index');
 
 const app = express();
 
 // Set up rate limiter: maximum of twenty requests per minute
-const RateLimit = require("express-rate-limit");
-const limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 20,
-});
+// const RateLimit = require("express-rate-limit");
+// const limiter = RateLimit({
+//   windowMs: 1 * 60 * 1000, // 1 minute
+//   max: 20,
+// });
 
-// set up db connection
-const mongoose = require('mongoose');
-const mongoDB = process.env.MONGODB_URI;
-
-main().catch(err => console.log(err));
-mongoose.set('strictQuery', false);
-
-async function main() {
-  await mongoose.connect(mongoDB);
-}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(compression());
-app.use(helmet());
-app.use(limiter);
+
+// Security Policy Headers
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'script-src-attr': ["'unsafe-inline'", ]
+      }
+    }
+  }));
+
+// app.use(limiter);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // passport session middleware
 app.use(session({
-  secret: 'keyboard cat',
+  store: new (require('connect-pg-simple')(session))({
+    // Insert connect-pg-simple options here
+    pool: pool,
+  }),
+  secret: process.env.COOKIE_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI,
-    ttl: 1 * 24 * 60 * 60, // Sessions expire after 24 hours. Default is 14 days (Day * Hour * Min * Sec)
-    autoRemove: 'native',
-  }),
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
 app.use(passport.authenticate('session'));
 

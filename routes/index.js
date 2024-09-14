@@ -1,9 +1,9 @@
 const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
+const db = require('../db/queries');
 
 // Require controller modules
 const index_controller = require('../controllers/indexController');
@@ -12,7 +12,9 @@ const index_controller = require('../controllers/indexController');
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const user = await User.findOne({ username });
+      const temp = await db.findUser(username);
+      const user = temp[0];
+
       if(!user) {
         return done(null, false, { message: 'Incorrect username'});
       }
@@ -34,17 +36,38 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, {
+    id: user.id,
+    username: user.username,
+    member: user.member,
+    is_admin: user.is_admin
+  });
 });
 
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser(async (user, done) => {
   try {
-    const user = await User.findById(id);
-    done(null, user);
+    const temp = await db.findUser(user.username);
+    console.log(temp[0]);
+    done(null, {
+      id: temp[0].id,
+      username: temp[0].username,
+      member: temp[0].member,
+      is_admin: temp[0].is_admin
+    });
   } catch (err) {
     done(err);
   };
 });
+
+function validationCheck(req, res, next) {
+  if (!req.user) {
+    const err = new Error('Unauthorized Access');
+    err.status = 401;
+    return next(err);
+  } else {
+    next();
+  }
+}
 
 // GET request for index page
 router.get('/', index_controller.index);
@@ -77,27 +100,27 @@ router.get('/sign_up', index_controller.user_sign_up_get);
 router.post('/sign_up', index_controller.user_sign_up_post);
 
 // GET request for join club
-router.get('/join', index_controller.join_club_get);
+router.get('/join', validationCheck, index_controller.join_club_get);
 
 // POST request for join club
-router.post('/join', index_controller.join_club_post);
+router.post('/join', validationCheck, index_controller.join_club_post);
 
 // GET request for new message form
-router.get('/new_message', index_controller.new_message_get);
+router.get('/new_message', validationCheck, index_controller.new_message_get);
 
 // POST request for new message form
-router.post('/new_message', index_controller.new_message_post);
+router.post('/new_message', validationCheck, index_controller.new_message_post);
 
 // GET request for message delete
-router.get('/message/:id', index_controller.delete_message_get);
+router.get('/message/:id', validationCheck, index_controller.delete_message_get);
 
 // POST reqest for message delete
-router.post('/message/:id', index_controller.delete_message_post);
+router.post('/message/:id', validationCheck, index_controller.delete_message_post);
 
 // GET request for user dashboard
-router.get('/user/:id', index_controller.user_dashboard_get);
+router.get('/user/:id', validationCheck, index_controller.user_dashboard_get);
 
 // POST request for user dashboard
-router.post('/user/:id', index_controller.user_dashboard_post);
+router.post('/user/:id', validationCheck, index_controller.user_dashboard_post);
 
 module.exports = router;
