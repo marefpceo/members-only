@@ -3,7 +3,8 @@ const pool = require('./pool');
 // Returns a list of all messages
 async function getAllMessages() {
   const { rows } = await pool.query(`
-    SELECT * FROM messages;
+    SELECT messages.*, users.username FROM messages
+    LEFT JOIN users ON messages.author = users.id
     `);
   return rows;
 }

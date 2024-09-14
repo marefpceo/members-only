@@ -218,7 +218,7 @@ exports.new_message_post = [
 // Action can only be performed by Admin user
 exports.delete_message_get = asyncHandller(async (req, res, next) => {
   const message = await db.getSelectedMessage(req.params.id);
-    if (req.user.isAdmin !== true) {
+    if (req.user.is_admin !== true) {
       const err = new Error('Forbidden');
       err.status = 403;
       return next(err);
