@@ -14,7 +14,7 @@ Members Only App is from the The Odin Project course's NodeJS Module, Project: M
 * Exclusive access can be obtained after signing up by clicking the `Join the Club` button
 
 ### Installation Guide
-[Click here for live demo](https://marked-sleet-ski.glitch.me)
+[Click here for live demo](https://mar-members-only.adaptable.app)
 
 #### Local Install
 * Clone this repository [here](https://github.com/marefpceo/members-only)
@@ -25,11 +25,12 @@ Members Only App is from the The Odin Project course's NodeJS Module, Project: M
 * Run `npm install` to install all dependencies
 * Create an ***.env*** file in the project's root directory and add project variables
 
-  >`MONGODB_URI`, `ADMIN_ACCESS` and `ACCESS_CODE` are the variables currently used. Use this file to adjust or add more variables if needed.
+  >`POSTGRESQL_URI`, `ADMIN_ACCESS`, `ACCESS_CODE` and `COOKIE_SECRET` are the variables currently used. Use this file to adjust or add more variables if needed.
   >
-  >* `MONGODB_URI` stores database connection.
+  >* `POSTGRESQL_URI` stores database connection.
   >* `ADMIN_ACCESS` stores password for administrator access
   >* `ACCESS_CODE` stores the password for exclusive access
+  >* `COOKIE_SECRET` stores the secret for creating cookie sessions
 
 ### Usage
 * Run `npm run serverstart` to start the application
@@ -38,8 +39,7 @@ Members Only App is from the The Odin Project course's NodeJS Module, Project: M
 ### Technologies Used
 * [NodeJS](https://www.nodejs.org/) is a cross-platform, open-source JavaScript runtime environment that runs on the V8 JavaScript engine. Node.js lets developers use JavaScript to write command line tools and for server-side scripting
 * [ExpressJS](https://www.expressjs.org/) is a back end web application framework for building web applications and APIs.
-* [Mongoose ODM](https://mongoosejs.com/) provides a straight-forward, schema-based solution to model your application data. It includes built-in type casting, validation, query building, business logic hooks and more, out of the box.
+* [PostgreSQL](https://www.postgresql.org/) is a free and open-source relational database management system emphasizing extensibility and SQL compliance.
 * [Passport](https://www.passportjs.org/) is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application. A comprehensive set of strategies support authentication using a username and password, Facebook, Twitter, and more.
-* [Express Validator](https://express-validator.github.io/)
-* [Less](https://lesscss.org/) is a dynamic preprocessor style sheet language that can be compiled into Cascading Style Sheets and run on the client side or server side. 
+* [Express Validator](https://express-validator.github.io/) middleware used to validate and sanitize form input data.
 * [EJS](https://ejs.co/) is a simple templating language that lets you generate HTML markup with plain JavaScript. 

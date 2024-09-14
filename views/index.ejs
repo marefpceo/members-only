@@ -8,7 +8,7 @@
             <div class='message-div'>
                 <div class='message-header'>
                     <h3><%= convertEscape(message.message_title) %></h3>
-                    <% if (user && (user.isAdmin === true)) { %>
+                    <% if (user && (user.is_admin === true)) { %>
                         <a href='/message/<%= message.id %>'><button type='button'>Delete</button></a>
                     <% } %>
                 </div>
@@ -19,7 +19,7 @@
                 
             <% if (typeof user !== 'undefined' && user.member === true) { %>
                 <div class='message-div-footer'>
-                    <p><strong>Author:</strong> <%= message.author %></p>
+                    <p><strong>Author:</strong> <%= message.username %></p>
                     <p><strong>Date created:</strong> <%= message.timestamp %></p>
                 </div>
             <% } %>    
