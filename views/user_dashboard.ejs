@@ -6,11 +6,11 @@
         <h1><%= title %></h1>
         <div class='user-info'>
             <h2>My Info</h2>
-            <p><strong>Name:</strong><%= user.fullname %></p>
-            <p><strong>Member since:</strong><%= typeof user === 'undefined' ? '' : user.member_since_formatted %></p>
+            <p><strong>Name: </strong><%= user.first_name%> <%= user.last_name %></p>
+            <p><strong>Member since: </strong><%= typeof user === 'undefined' ? '' : user.member_since %></p>
             <p><strong>Club Acces: </strong><%= user.member === true ? 'Yes' : 'No' %></p>
-            <p><strong>Administrator:</strong><%= user.isAdmin === true ? 'Yes' : 'No' %></p>
-            <p><strong>Messages Written:</strong><%= message_count %></p>
+            <p><strong>Administrator: </strong><%= user.is_admin === true ? 'Yes' : 'No' %></p>
+            <p><strong>Messages Written: </strong><%= message_count %></p>
         </div>
         <hr>
         <div class='user-messages'>
@@ -34,7 +34,7 @@
         </div>
         <hr>
 
-        <% if (user.isAdmin) { %>
+        <% if (user.is_admin) { %>
          <div class='admin-member-detail'>
              <div class='member-info'>
                 <h2>Member Info</h2>
@@ -44,7 +44,7 @@
                         <option value=''>--Make a selection--</option>
                         <% user_list.forEach(list_item => { %>
                             <% if (list_item.username !== user.username) { %>
-                                <% if ((typeof current_user !== 'undefined') && (list_item.username === current_user.username)) { %>
+                                <% if ((typeof selected_user !== 'undefined') && (list_item.username === selected_user.username)) { %>
                                     <option value='<%= list_item.username %>' selected ><%= list_item.username %></option>
                                 <% } else { %>
                                     <option value='<%= list_item.username %>'><%= list_item.username %></option>
@@ -55,14 +55,14 @@
                 </form>
              </div>
              <div class='user-info'>
-                <% if (typeof current_user !== 'undefined') { %>
-                    <h2><%= current_user.fullname %>'s Info</h2>
-                    <p><strong>First Name:</strong> <%= current_user.first_name %> </p>
-                    <p><strong>Last Name:</strong> <%= current_user.last_name %> </p>
-                    <p><strong>Username:</strong> <%= current_user.username %> </p>
-                    <p><strong>Member since:</strong> <%= typeof current_user.username === 'undefined' ? '' : current_user.member_since_formatted %></p>
-                    <p><strong>Club Acces: </strong> <%= current_user.member === true ? 'Yes' : 'No' %></p>
-                    <p><strong>Administrator:</strong> <%= current_user.isAdmin === true ? 'Yes' : 'No' %></p>
+                <% if (typeof selected_user !== 'undefined') { %>
+                    <h2><%= selected_user.first_name %>'s Info</h2>
+                    <p><strong>First Name:</strong> <%= selected_user.first_name %> </p>
+                    <p><strong>Last Name:</strong> <%= selected_user.last_name %> </p>
+                    <p><strong>Username:</strong> <%= selected_user.username %> </p>
+                    <p><strong>Member since:</strong> <%= typeof selected_user.username === 'undefined' ? '' : selected_user.member_since_formatted %></p>
+                    <p><strong>Club Acces: </strong> <%= selected_user.member === true ? 'Yes' : 'No' %></p>
+                    <p><strong>Administrator:</strong> <%= selected_user.is_admin === true ? 'Yes' : 'No' %></p>
                     <p><strong>Messages Written:</strong> <%= user_message_count %></p>
                 <% } %>
              </div>

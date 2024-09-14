@@ -28,7 +28,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(compression());
-app.use(helmet());
+
+// Security Policy Headers
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'script-src-attr': ["'unsafe-inline'", ]
+      }
+    }
+  }));
+
 // app.use(limiter);
 app.use(logger('dev'));
 app.use(express.json());

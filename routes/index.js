@@ -40,7 +40,7 @@ passport.serializeUser((user, done) => {
     id: user.id,
     username: user.username,
     member: user.member,
-    isAdmin: user.is_admin
+    is_admin: user.is_admin
   });
 });
 
@@ -51,6 +51,16 @@ passport.deserializeUser(async (user, done) => {
     done(err);
   };
 });
+
+function validationCheck(req, res, next) {
+  if (!req.user) {
+    const err = new Error('Unauthorized Access');
+    err.status = 401;
+    return next(err);
+  } else {
+    next();
+  }
+}
 
 // GET request for index page
 router.get('/', index_controller.index);
@@ -83,27 +93,27 @@ router.get('/sign_up', index_controller.user_sign_up_get);
 router.post('/sign_up', index_controller.user_sign_up_post);
 
 // GET request for join club
-router.get('/join', index_controller.join_club_get);
+router.get('/join', validationCheck, index_controller.join_club_get);
 
 // POST request for join club
-router.post('/join', index_controller.join_club_post);
+router.post('/join', validationCheck, index_controller.join_club_post);
 
 // GET request for new message form
-router.get('/new_message', index_controller.new_message_get);
+router.get('/new_message', validationCheck, index_controller.new_message_get);
 
 // POST request for new message form
-router.post('/new_message', index_controller.new_message_post);
+router.post('/new_message', validationCheck, index_controller.new_message_post);
 
 // GET request for message delete
-router.get('/message/:id', index_controller.delete_message_get);
+router.get('/message/:id', validationCheck, index_controller.delete_message_get);
 
 // POST reqest for message delete
-router.post('/message/:id', index_controller.delete_message_post);
+router.post('/message/:id', validationCheck, index_controller.delete_message_post);
 
 // GET request for user dashboard
-router.get('/user/:id', index_controller.user_dashboard_get);
+router.get('/user/:id', validationCheck, index_controller.user_dashboard_get);
 
 // POST request for user dashboard
-router.post('/user/:id', index_controller.user_dashboard_post);
+router.post('/user/:id', validationCheck, index_controller.user_dashboard_post);
 
 module.exports = router;

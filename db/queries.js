@@ -8,6 +8,14 @@ async function getAllMessages() {
   return rows;
 }
 
+// Returns a list of all users
+async function getAllUsers() {
+  const { rows } = await pool.query(`
+    SELECT * FROM users;
+  `);
+  return rows;
+}
+
 // Checks if username exists and returns found row
 async function findUser(username) {
   const { rows } = await pool.query(`
@@ -19,10 +27,11 @@ async function findUser(username) {
 
 // Create new user
 async function createNewUser(firstName, lastName, username, password, member, isAdmin){
-  await pool.query(`
+  const { rows } = await pool.query(`
     INSERT INTO users (first_name, last_name, username, password, member, is_admin)
-    VALUES (($1), ($2), ($3), ($4), ($5), ($6))
+    VALUES (($1), ($2), ($3), ($4), ($5), ($6)) RETURNING id
     `, [firstName, lastName, username, password, member, isAdmin]);
+  return rows;
 }
 
 // Update user club access status
@@ -59,13 +68,36 @@ async function deleteSelectedMessage(id) {
     WHERE id = ($1)
   `, [id]);
 }
+
+// Get messages created by selected user
+async function getUserMessages(userId) {
+  const { rows } = await pool.query(`
+    SELECT * FROM messages
+    WHERE author = ($1)
+  `, [userId]);
+  return rows;
+}
+
+// Get message count for selected user
+async function getUserMessageCount(userId) {
+  const { rows } = await pool.query(`
+    SELECT COUNT(*) FROM messages
+    WHERE author = ($1)
+  `, [userId]);
+  return rows;
+}
+
+
  
 module.exports = {
   getAllMessages,
+  getAllUsers,
   findUser,
   createNewUser,
   grantClubAccess,
   createNewMessage,
   getSelectedMessage,
-  deleteSelectedMessage
+  deleteSelectedMessage,
+  getUserMessages,
+  getUserMessageCount
 }

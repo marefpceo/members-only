@@ -89,6 +89,7 @@ exports.user_sign_up_post = [
   asyncHandller(async (req, res, next) => {
     const errors = validationResult(req);
     const user = {
+      id: '',
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       username: req.body.username,
@@ -111,8 +112,9 @@ exports.user_sign_up_post = [
           return next(err);
         } else {
           user.password = hashedPassword;
-          await db.createNewUser(user.first_name, user.last_name, user.username, user.password, 
+          const newUserId = await db.createNewUser(user.first_name, user.last_name, user.username, user.password, 
             user.member, user.isAdmin);
+          user.id = newUserId[0].id;
         }
       });      
       req.login(user, (err) => {
@@ -128,17 +130,10 @@ exports.user_sign_up_post = [
 
 // Displays join club page on GET
 exports.join_club_get = asyncHandller(async (req, res, next) => {
-  if(!req.user) {
-    const err = new Error('Unauthorized Access');
-    err.status = 401;
-    return next(err);
-  } else {
-    console.log(req.user.id);
-    res.render('join_club', {
-      title: 'Join the Club',
-      user: req.user,
-    }); 
-  }
+  res.render('join_club', {
+    title: 'Join the Club',
+    user: req.user,
+  }); 
 });
 
 // Handle Join club POST
@@ -177,17 +172,11 @@ exports.join_club_post = [
 ];
 
 // GET and display create message form
-exports.new_message_get = asyncHandller(async (req, res, next) => {
-  if(!req.user){
-    const err = new Error('Unauthorized Access');
-    err.status = 401;
-    return next(err);
-  } else {
-    res.render('new_message_form', {
-      title: 'New Message',
-      user: req.user,
-    });
-  }
+exports.new_message_get = asyncHandller(async (req, res, next) => {  
+  res.render('new_message_form', {
+    title: 'New Message',
+    user: req.user,
+  });
 });
 
 // Handle create message POST
@@ -229,23 +218,18 @@ exports.new_message_post = [
 // Action can only be performed by Admin user
 exports.delete_message_get = asyncHandller(async (req, res, next) => {
   const message = await db.getSelectedMessage(req.params.id);
-
-  if(!req.user){
-    const err = new Error('Unauthorized Access');
-    err.status = 401;
-    return next(err);
-  } else if (req.user.isAdmin !== true) {
-    const err = new Error('Forbidden');
-    err.status = 403;
-    return next(err);
-  } else {
-    res.render('message', {
-      title: 'Message Info',
-      user: req.user,
-      message: message[0],
-      convertEscape: convertEscape,
-    });
-  }
+    if (req.user.isAdmin !== true) {
+      const err = new Error('Forbidden');
+      err.status = 403;
+      return next(err);
+    } else {
+      res.render('message', {
+        title: 'Message Info',
+        user: req.user,
+        message: message[0],
+        convertEscape: convertEscape,
+      });
+    }
 });
 
 // POST Handle message delete
@@ -254,25 +238,19 @@ exports.delete_message_post = asyncHandller(async (req, res, next) => {
   res.redirect('/');
 });
 
-
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-
-
-
 // GET user dashboard
 exports.user_dashboard_get = asyncHandller(async (req, res, next) => {
-  const user_messages = await Message.find({ author: req.user.id }).exec();
-  const user_list = await User.find().sort({ username: 1 }).exec();
-  const message_count = await Message.countDocuments({ author: req.user.id }).exec();
+  const user_messages = await db.getUserMessages(req.user.id);
+  const user_list = await db.getAllUsers();
+  const message_count = await db.getUserMessageCount(req.user.id);
+  const current_user = await db.findUser(req.user.username);
 
+  
   res.render('user_dashboard', {
     title: `${req.user.username}'s Dashboard`,
-    user: req.user,
+    user: current_user[0],
     messages: user_messages,
-    message_count: message_count,
+    message_count: message_count[0].count,
     user_list: user_list,
     convertEscape: convertEscape,
   });
@@ -280,20 +258,25 @@ exports.user_dashboard_get = asyncHandller(async (req, res, next) => {
 
 // POST user dashboard
 exports.user_dashboard_post = asyncHandller(async (req, res, next) => {
-  const user_messages = await Message.find({ author: req.user.id }).exec();
-  const user_list = await User.find().sort({ username: 1 }).exec();
-  const message_count = await Message.countDocuments({ author: req.user.id }).exec();
-  const current_user = await User.findOne({ username: req.body.user_list }).exec();
-  const user_message_count = await Message.countDocuments({ author: current_user.id }).exec(); 
+  if (req.body.user_list === '') {
+    return;
+  }
+
+  const current_user = await db.findUser(req.user.username);
+  const user_messages = await db.getUserMessages(req.user.id);
+  const user_list = await db.getAllUsers();
+  const message_count = await db.getUserMessageCount(req.user.id);
+  const selected_user = await db.findUser(req.body.user_list);
+  const user_message_count = await db.getUserMessageCount(selected_user[0].id); 
 
   res.render('user_dashboard', {
     title: `${req.user.username}'s Dashboard`,
-    user: req.user,
+    user: current_user[0],
     messages: user_messages,
-    user_message_count: user_message_count,
     user_list: user_list,
-    current_user: current_user,
-    message_count: message_count,
+    selected_user: selected_user[0],
+    message_count: message_count[0].count,
+    user_message_count: user_message_count[0].count,
     convertEscape: convertEscape,
   });
 })
