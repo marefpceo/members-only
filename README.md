@@ -14,7 +14,7 @@ Members Only App is from the The Odin Project course's NodeJS Module, Project: M
 * Exclusive access can be obtained after signing up by clicking the `Join the Club` button
 
 ### Installation Guide
-[Click here for live demo](https://mar-members-only.adaptable.app)
+[Click here for live demo](https://members-only-production-32d3.up.railway.app/)
 
 #### Local Install
 * Clone this repository [here](https://github.com/marefpceo/members-only)
